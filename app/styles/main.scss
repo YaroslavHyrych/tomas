@@ -73,3 +73,17 @@ body {
 .timer {
   text-align: center;
 }
+
+.info {
+  input, textarea {
+    border-radius: 0 !important;
+    border-width: 0;
+    border-bottom-width: 1px;
+    box-shadow: none;
+  }
+
+  textarea:focus, input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}

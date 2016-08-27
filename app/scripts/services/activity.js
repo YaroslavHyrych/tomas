@@ -1,3 +1,11 @@
+
+/**
+ * @ngdoc service
+ * @name tomasApp.Activity
+ * @description
+ * # Activity instance
+ * Service in the tomasApp.
+ */
 angular.module('tomasApp')
 .factory('Activity', ['$localStorage', function($localStorage) {
   function Activity(type) {
@@ -26,7 +34,24 @@ angular.module('tomasApp')
   Activity.prototype.save = function() {
     if (!this.stopDate) this.stopDate = new Date();
 
-    $localStorage[this.startDate.getTime()] = this;
+    $localStorage[this.startDate.getTime()] = JSON.stringify(this);
+  };
+
+  Activity.parse = function(str) {
+    var object = JSON.parse(str, function(key, value) {
+      if (key == 'startDate' || key == 'stopDate') {
+        return new Date(value);
+      }
+
+      return value;
+    });
+    var activity = new Activity(object.type);
+    activity.name = object.name;
+    activity.description = object.description;
+    activity.startDate = object.startDate;
+    activity.stopDate = object.stopDate;
+
+    return activity;
   };
 
   return Activity;
