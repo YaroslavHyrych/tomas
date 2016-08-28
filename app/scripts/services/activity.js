@@ -9,7 +9,7 @@
 angular.module('tomasApp')
 .factory('Activity', ['$localStorage', function($localStorage) {
   function Activity(type) {
-    this.name = 'New activity';
+    this.name = '';
     this.description = '';
     this.type = type || Activity.TYPE.WORK;
   }
@@ -33,6 +33,8 @@ angular.module('tomasApp')
 
   Activity.prototype.save = function() {
     if (!this.stopDate) this.stopDate = new Date();
+
+    if (!this.name) this.name = 'Activity';
 
     $localStorage[this.startDate.getTime()] = JSON.stringify(this);
   };

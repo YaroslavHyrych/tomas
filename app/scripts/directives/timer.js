@@ -47,7 +47,7 @@ angular.module('tomasApp')
               updateTimer();
             }, 1000);
           } else if (newValue && oldValue) { // New activity
-            
+
           } else {
             $interval.cancel(timer);
             timer = null;

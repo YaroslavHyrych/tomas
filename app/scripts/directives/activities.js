@@ -12,10 +12,14 @@ angular.module('tomasApp')
       templateUrl: 'views/activities.html',
       restrict: 'E',
       controller: ['$scope', 'history', function($scope, history) {
-        $scope.activities = history.load();
+        function loadToScope() {
+          $scope.activities = history.load().reverse();
+        }
+        
+        loadToScope();
 
         $scope.$watch('activity', function(oldValue, newValue) {
-          $scope.activities = history.load();
+          loadToScope();
         });
       }]
       // link: function postLink(scope, element, attrs) {
