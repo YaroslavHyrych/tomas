@@ -9,40 +9,37 @@
  */
 angular.module('tomasApp')
   .controller('MainCtrl', ['$scope', 'Activity', function ($scope, Activity) {
+    //TODO remove
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
 
-    $scope.startNewActivity = function() {
+    this.startNewActivity = function() {
       start(Activity.TYPE.WORK);
-      console.log('startNewActivity');
+      $scope.$broadcast('start-activity');
     };
 
-    $scope.makeBreak = function() {
+    this.makeBreak = function() {
       start(Activity.TYPE.BREAK);
-      console.log('makeBreak');
+      $scope.$broadcast('start-activity');
     };
 
     var start = function (type) {
       if ($scope.activity) {
-        $scope.stop();
+        stop();
       }
 
       $scope.activity = new Activity(type);
       $scope.activity.start();
-
-      console.log(JSON.stringify($scope.activity));
     };
 
-    $scope.stop = function() {
+    this.stop = function() {
       if (!$scope.activity) return;
 
       $scope.activity.stop().save();
 
       $scope.activity = null;
     };
-
-
   }]);

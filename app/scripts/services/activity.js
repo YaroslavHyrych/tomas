@@ -34,7 +34,9 @@ angular.module('tomasApp')
   Activity.prototype.save = function() {
     if (!this.stopDate) this.stopDate = new Date();
 
-    if (!this.name) this.name = 'Activity';
+    if (!this.name) {
+      this.name = this.type == Activity.TYPE.BREAK ? 'Break': 'Activity';
+    }
 
     $localStorage[this.startDate.getTime()] = JSON.stringify(this);
   };
