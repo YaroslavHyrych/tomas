@@ -66,6 +66,12 @@ angular.module('tomasApp')
           }, 1000);
         });
 
+        $scope.$on('stop-activity', function () {
+          $scope.time = '00:00:00';
+          $interval.cancel(timer);
+          timer = null;
+        });
+
         // $scope.$watch('activity', function (newValue, oldValue) {
         //   if (newValue && !oldValue) { // First activity
         //     timer = $interval(function () {

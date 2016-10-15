@@ -15,10 +15,10 @@ angular.module('tomasApp')
         function loadToScope() {
           $scope.activities = history.load().reverse();
         }
-        
+
         loadToScope();
 
-        $scope.$watch('activity', function(oldValue, newValue) {
+        $scope.$on('stop-activity', function () {
           loadToScope();
         });
       }]

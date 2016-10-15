@@ -9,6 +9,7 @@
  */
 angular.module('tomasApp')
   .controller('MainCtrl', ['$scope', 'Activity', function ($scope, Activity) {
+    var that = this;
     //TODO remove
     this.awesomeThings = [
       'HTML5 Boilerplate',
@@ -18,28 +19,29 @@ angular.module('tomasApp')
 
     this.startNewActivity = function() {
       start(Activity.TYPE.WORK);
-      $scope.$broadcast('start-activity');
     };
 
     this.makeBreak = function() {
       start(Activity.TYPE.BREAK);
-      $scope.$broadcast('start-activity');
     };
 
     var start = function (type) {
       if ($scope.activity) {
-        stop();
+        that.stop();
       }
 
       $scope.activity = new Activity(type);
       $scope.activity.start();
+
+      $scope.$broadcast('start-activity');
     };
 
     this.stop = function() {
       if (!$scope.activity) return;
 
       $scope.activity.stop().save();
-
       $scope.activity = null;
+
+      $scope.$broadcast('stop-activity');
     };
   }]);
