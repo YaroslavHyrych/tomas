@@ -16,10 +16,11 @@ angular.module('tomasApp')
       templateUrl: 'views/timer.html',
       restrict: 'E',
       controllerAs: 'ctrl',
-      controller: ['$interval', '$scope', function ($interval, $scope) {
+      controller: ['$interval', '$scope', 'Activity', function ($interval, $scope, Activity) {
         var timer;
+        var startTime = '00:00:00';
 
-        $scope.time = '00:00:00';
+        $scope.time = startTime;
 
         function updateTimer() {
           var timeArr = $scope.time.split(':');
@@ -27,10 +28,18 @@ angular.module('tomasApp')
           var minutes = timeArr[1];
           var seconds = timeArr[2];
 
-          if (seconds == 60) {
+          if (seconds == 59) {
             minutes++;
             seconds = 0;
-            if (minutes == 60) {
+
+            // Check every minute
+            if ($scope.time == '00:24:59' && $scope.activity.type == Activity.TYPE.WORK) {
+              console.log('Please make a break!');
+            } else if ($scope.time == '00:04:59' && $scope.activity.type == Activity.TYPE.BREAK) {
+              console.log('Break is so log...');
+            }
+
+            if (minutes == 59) {
               hours++;
               minutes = 0;
               if (hours < 10) {
@@ -48,8 +57,6 @@ angular.module('tomasApp')
           }
 
           $scope.time = hours + ':' + minutes + ':' + seconds;
-
-          console.log($scope.time);
         }
 
         this.stop = function () {
@@ -60,14 +67,14 @@ angular.module('tomasApp')
         };
 
         $scope.$on('start-activity', function () {
-          $scope.time = '00:00:00';
+          $scope.time = startTime;
           timer = $interval(function () {
             updateTimer();
           }, 1000);
         });
 
         $scope.$on('stop-activity', function () {
-          $scope.time = '00:00:00';
+          $scope.time = startTime;
           $interval.cancel(timer);
           timer = null;
         });
