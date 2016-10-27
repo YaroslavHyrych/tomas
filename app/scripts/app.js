@@ -11,7 +11,6 @@
 angular
   .module('tomasApp', [
     'ngAnimate',
-    'ngCookies',
     'ngTouch',
     'ngStorage'
   ]);

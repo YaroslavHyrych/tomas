@@ -5,7 +5,6 @@
     "angular": "^1.4.0",
     "bootstrap": "^3.2.0",
     "angular-animate": "^1.4.0",
-    "angular-cookies": "^1.4.0",
     "angular-touch": "^1.4.0",
     "ngstorage": "^0.3.11"
   },

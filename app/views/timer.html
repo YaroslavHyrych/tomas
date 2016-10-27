@@ -1,6 +1,9 @@
-<div class="timer">
+<div class="col-sm-6 col-sm-push-3 col-xs-12 timer">
+  <div class="logo">
+    <img src="app/imgs/logo.svg">
+  </div>
   <h1>{{time}}</h1>
-  <!--<h3>{{pauseTime}}</h3>-->
-  <!--<button class="btn btn-link btn-lg play" ng-click="start()"> Start </button>-->
-  <button class="btn btn-link btn-lg pause" ng-click="ctrl.stop()">Stop</button>
+  <div class="stop-btn block" ng-click="ctrl.stop()">
+    <div class="square block"></div>
+  </div>
 </div>
