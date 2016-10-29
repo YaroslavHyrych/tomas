@@ -12,14 +12,13 @@ angular.module('tomasApp')
       scope: {
         activity: '='
       },
-      bindToController: true,
       templateUrl: 'views/info.html',
       restrict: 'E',
       controllerAs: 'ctrl',
-      controller: ['Activity', function (Activity) {
+      controller: ['$scope', 'Activity', function ($scope, Activity) {
         this.isShow = function () {
-          return this.activity && this.activity.type == Activity.TYPE.WORK;
-        }
+          return $scope.activity && $scope.activity.type === Activity.TYPE.WORK;
+        };
       }]
     };
   });
