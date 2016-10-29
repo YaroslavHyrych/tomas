@@ -1,16 +1,14 @@
-<div class="col-sm-3 col-sm-pull-9 col-xs-12 activities">
-  <header class="block">
-    <div title="activity" class="checkbox activity">
-      <input type="checkbox" id="activitiesCheckbox" name="activitiesCheckbox" checked>
-      <label for="activitiesCheckbox"></label></div>
-    <div title="break" class="checkbox break">
-      <input type="checkbox" id="breakCheckbox" name="activitiesCheckbox" checked>
-      <label for="breakCheckbox"></label>
-    </div>
-    <div class="time">42:12</div>
-  </header>
-  <div class="block activity" ng-repeat="activity in activities">{{activity.name}}
-    <div class="time">{{activity.time}}</div>
-    <div class="description" ng-show="activity.description">{{activity.description}}</div>
+<header class="block">
+  <div title="activity" class="checkbox activity">
+    <input type="checkbox" id="activitiesCheckbox" name="activitiesCheckbox" checked>
+    <label for="activitiesCheckbox"></label></div>
+  <div title="break" class="checkbox break">
+    <input type="checkbox" id="breakCheckbox" name="activitiesCheckbox" checked>
+    <label for="breakCheckbox"></label>
   </div>
+  <div class="time">42:12</div>
+</header>
+<div class="block activity" ng-repeat="activity in activities">{{activity.name}}
+  <div class="time">{{activity.time}}</div>
+  <div class="description" ng-show="activity.description">{{activity.description}}</div>
 </div>
