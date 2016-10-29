@@ -9,6 +9,6 @@
   <div class="time">42:12</div>
 </header>
 <div class='block {{activity.type}}' ng-repeat="activity in activities">{{activity.name}}
-  <div class="time">{{activity.time}}</div>
+  <div class="time">{{ctrl.makeDuration(activity)}}</div>
   <div class="description" ng-show="activity.description">{{activity.description}}</div>
 </div>

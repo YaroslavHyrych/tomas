@@ -8,6 +8,10 @@
  */
 angular.module('tomasApp')
 .factory('Activity', ['$localStorage', function($localStorage) {
+  function getTime() {
+    var date = new Date();
+    return date.getTime();
+  }
   function Activity(type) {
     this.name = '';
     this.description = '';
@@ -20,25 +24,25 @@ angular.module('tomasApp')
   };
 
   Activity.prototype.start = function() {
-    this.startDate = new Date();
+    this.startDate = getTime();
 
     return this;
   };
 
   Activity.prototype.stop = function() {
-    this.stopDate = new Date();
+    this.stopDate = getTime();
 
     return this;
   };
 
   Activity.prototype.save = function() {
-    if (!this.stopDate) this.stopDate = new Date();
+    if (!this.stopDate) this.stopDate = getTime();
 
     if (!this.name) {
       this.name = this.type == Activity.TYPE.BREAK ? 'Break': 'Activity';
     }
 
-    $localStorage[this.startDate.getTime()] = JSON.stringify(this);
+    $localStorage[this.startDate] = JSON.stringify(this);
   };
 
   Activity.parse = function(str) {
