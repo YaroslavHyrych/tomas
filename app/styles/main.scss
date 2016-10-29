@@ -134,11 +134,14 @@ body {
   box-shadow: 4px 4px 4px #e9e7e7;
   border-radius: 2px; }
 
-main.row > div {
+main.row > div, main.row > .activity, main.row > .activities {
   margin-bottom: 30px; }
 
 .logo {
   margin-top: 3em; }
+@media only screen and (max-width: 767px) and (orientation: landscape) {
+  .logo {
+    display: none; } }
 .logo img {
   width: 50%;
   max-width: 25em; }
