@@ -12,7 +12,7 @@ angular.module('tomasApp')
       templateUrl: 'views/activities.html',
       restrict: 'E',
       controllerAs: 'activitiesCtrl',
-      controller: ['$scope', 'history', function($scope, history) {
+      controller: ['$scope', 'history', 'Activity', function ($scope, history, Activity) {
         function loadToScope() {
           $scope.activities = history.load().reverse();
         }
@@ -23,21 +23,34 @@ angular.module('tomasApp')
 
         loadToScope();
 
+        $scope.filteredTypes = [];
+        $scope.checkboxModel = {
+          work: Activity.TYPE.WORK,
+          break: Activity.TYPE.BREAK
+        };
+
         $scope.$on('stop-activity', function () {
           loadToScope();
         });
 
+        $scope.$watchCollection('checkboxModel', function (value) {
+          var newFilterTypes = [];
+          for (var key in value) {
+            newFilterTypes.push(value[key]);
+          }
+          $scope.filteredTypes = newFilterTypes;
+        });
+
         this.makeDuration = function (activity) {
           var date = new Date(activity.stopDate - activity.startDate),
-            hours = timeFormat(date.getHours() + date.getTimezoneOffset()/60),
+            hours = timeFormat(date.getHours() + date.getTimezoneOffset() / 60),
             minutes = timeFormat(date.getMinutes()),
             seconds = timeFormat(date.getSeconds());
 
-          return ((hours == '00') ? '' : hours + ':') +  minutes + ':' +  seconds;
+          return ((hours == '00') ? '' : hours + ':') + minutes + ':' + seconds;
         };
+        
+        this.types = Activity.TYPE; 
       }]
-      // link: function postLink(scope, element, attrs) {
-      //   element.text('this is the activities directive');
-      // }
     };
   });

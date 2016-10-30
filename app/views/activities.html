@@ -1,14 +1,17 @@
 <header class="block">
   <div title="activity" class="checkbox work">
-    <input type="checkbox" id="workCheckbox" name="workCheckbox" checked>
+    <input type="checkbox" ng-model="checkboxModel.work" id="workCheckbox" ng-true-value="'work'"
+           ng-false-value="''">
     <label for="workCheckbox"></label></div>
   <div title="break" class="checkbox break">
-    <input type="checkbox" id="breakCheckbox" name="breakCheckbox" checked>
+    <input type="checkbox" ng-model="checkboxModel.break" id="breakCheckbox" ng-true-value="'break'"
+           ng-false-value="''">
     <label for="breakCheckbox"></label>
   </div>
   <div class="time">42:12</div>
 </header>
-<div class='block {{activity.type}}' ng-repeat="activity in activities">{{activity.name}}
+<div class='block {{activity.type}}' ng-repeat="activity in activities | activitiesFilter:filteredTypes">
+  {{activity.name}}
   <div class="time">{{activitiesCtrl.makeDuration(activity)}}</div>
   <div class="description" ng-show="activity.description">{{activity.description}}</div>
 </div>
