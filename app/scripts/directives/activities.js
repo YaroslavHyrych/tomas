@@ -12,45 +12,72 @@ angular.module('tomasApp')
       templateUrl: 'views/activities.html',
       restrict: 'E',
       controllerAs: 'activitiesCtrl',
-      controller: ['$scope', 'history', 'Activity', function ($scope, history, Activity) {
-        function loadToScope() {
-          $scope.activities = history.load().reverse();
+      controller: ['$scope', 'history', 'Activity' , 'activitiesFilterFilter', function ($scope, history, Activity, activitiesFilterFilter) {
+        var self = this;
+
+        $scope.activities = loadActivities();
+        $scope.isWorkChecked = true;
+        $scope.isBreakChecked = true;
+
+        calculateTotalDuration();
+
+        $scope.checkboxChanged = function () {
+          var types = [];
+          if ($scope.isWorkChecked) types.push(Activity.TYPE.WORK);
+          if ($scope.isBreakChecked) types.push(Activity.TYPE.BREAK);
+
+          $scope.activities = activitiesFilterFilter(self.loadedActivities, types);
+          calculateTotalDuration();
+        };
+
+        $scope.$on('stop-activity', function () {
+          loadActivities();
+          $scope.checkboxChanged();
+        });
+
+        this.makeDuration = function (activity) {
+          var time = getActivityDuration(activity);
+          var hours = time.hours == 0 ? '' : timeFormat(time.hours) + ':';
+          return hours + timeFormat(time.minutes) + ':' + timeFormat(time.seconds);
+        };
+
+        this.types = Activity.TYPE;
+
+        function getActivityDuration(activity) {
+          var userTimezoneOffset = new Date().getTimezoneOffset() * 60000,
+            date = new Date(activity.stopDate - activity.startDate + userTimezoneOffset),
+            hours = date.getHours(),
+            minutes = date.getMinutes(),
+            seconds = date.getSeconds();
+
+          return {
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+          };
+        }
+
+        function calculateTotalDuration() {
+          var date = new Date(new Date().setHours(0, 0, 0, 0));
+          for (var index in $scope.activities) {
+            var time = getActivityDuration($scope.activities[index]);
+            date.setSeconds(date.getSeconds() + time.seconds);
+            date.setMinutes(date.getMinutes() + time.minutes);
+            date.setHours(date.getHours() + time.hours);
+          }
+
+          var hours = date.getHours() == 0 ? '' : timeFormat(date.getHours()) + ':';
+          $scope.totalDuration = hours + timeFormat(date.getMinutes()) + ':' + timeFormat(date.getSeconds());
+        }
+
+        function loadActivities() {
+          return self.loadedActivities = history.load().reverse();
         }
 
         function timeFormat(time) {
           return time.toString().length == 1 ? '0' + time : time;
         }
 
-        loadToScope();
-
-        $scope.filteredTypes = [];
-        $scope.checkboxModel = {
-          work: Activity.TYPE.WORK,
-          break: Activity.TYPE.BREAK
-        };
-
-        $scope.$on('stop-activity', function () {
-          loadToScope();
-        });
-
-        $scope.$watchCollection('checkboxModel', function (value) {
-          var newFilterTypes = [];
-          for (var key in value) {
-            newFilterTypes.push(value[key]);
-          }
-          $scope.filteredTypes = newFilterTypes;
-        });
-
-        this.makeDuration = function (activity) {
-          var date = new Date(activity.stopDate - activity.startDate),
-            hours = timeFormat(date.getHours() + date.getTimezoneOffset() / 60),
-            minutes = timeFormat(date.getMinutes()),
-            seconds = timeFormat(date.getSeconds());
-
-          return ((hours == '00') ? '' : hours + ':') + minutes + ':' + seconds;
-        };
-        
-        this.types = Activity.TYPE; 
       }]
     };
   });
