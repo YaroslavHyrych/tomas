@@ -1,0 +1,91 @@
+@import "variables"
+
+input[type='text'], textarea
+  border: none
+  width: 100%
+  outline: none
+  text-shadow: 0 2px 3px #ffffff
+  color: $text-color
+
+.controls
+  margin-top: 1em
+  font-size: 18px
+
+  .circle
+    width: 60px
+    height: 60px
+    border-radius: 50%
+    background: $dark-background-color
+
+    & > div
+      text-shadow: none
+      padding-top: 7px
+
+  .start-btn, .break-btn
+    & > div
+      display: inline-block
+
+  .start-btn:hover, .break-btn:hover
+    cursor: pointer
+
+  .start-btn
+    text-align: right
+    .circle
+      color: $green-color
+
+
+  .break-btn
+    text-align: left
+    .circle
+      color: $orange-color
+
+
+.checkbox
+  display: inline-block
+  margin: 0
+
+  input[type='checkbox']
+    display: none
+
+  label
+    display: inline-block
+    cursor: pointer
+    position: relative
+    padding-left: 25px
+    margin-right: 5px
+    font-size: 13px
+
+  label:before
+    content: ""
+    display: inline-block
+
+    width: 25px
+    height: 25px
+
+    margin-right: 10px
+    position: absolute
+    left: 0
+    bottom: 1px
+    background-color: $dark-background-color
+    box-shadow: inset 0 2px 3px 0 $shadow-color
+    border-radius: 50%
+
+  & > input + label:before
+    content: "\2022"
+    color: $dark-background-color
+    font-size: 60px
+    text-align: center
+    line-height: 25px
+
+.checkbox.work
+  input:checked + label:before
+    color: $green-color
+  input + label:before
+    color: $green-disabled-color
+
+.checkbox.break
+  input:checked + label:before
+    color: $orange-color
+
+  input + label:before
+    color: $orange-disabled-color

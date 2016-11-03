@@ -16,7 +16,7 @@ var yeoman = {
 
 var paths = {
   scripts: [yeoman.app + '/scripts/**/*.js'],
-  styles: [yeoman.app + '/styles/**/*.scss'],
+  styles: [yeoman.app + '/styles/**/*.sass'],
   test: ['test/spec/**/*.js'],
   testRequire: [
     yeoman.app + '/bower_components/angular/angular.js',

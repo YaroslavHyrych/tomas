@@ -1,0 +1,24 @@
+$sm: 768px
+$md: 992px
+$lg: 1200px
+
+@mixin respond-to-portrait($gadget, $orientation:portrait)
+  @if $gadget == phone
+    @media only screen and (max-width: $sm - 1) and (orientation: $orientation)
+      @content
+
+  @else if $gadget == phablet
+    @media only screen and (min-width: $sm) and (max-width: $md) and (orientation: $orientation)
+      @content
+
+  @else if $gadget == tablet
+    @media only screen and (min-width: $md + 1) and (max-width: $lg - 1) and (orientation: $orientation)
+      @content
+
+  @else if $gadget == pc
+    @media only screen and (min-width: $lg) and (orientation: $orientation)
+      @content
+
+  @else if $gadget == ultra
+    @media only screen and (min-width: $lg) and (orientation: $orientation)
+      @content

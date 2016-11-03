@@ -1,0 +1,31 @@
+@import "modules/variables"
+@import "modules/input"
+@import "modules/timer"
+@import "modules/activities"
+@import "modules/respond-to"
+
+body
+  background-color: $background-color
+  text-shadow: 0 2px 3px #ffffff
+  color: $text-color
+
+//main
+  //margin-top: 1em
+
+.block
+  background-color: #ffffff
+  padding: 10px
+  box-shadow: 4px 4px 4px $shadow-color
+  border-radius: $border-radius
+
+main.row > *
+    margin-bottom: 3rem
+
+.logo
+  margin-top: 3em
+  @include respond-to-portrait(phone, landscape)
+    display: none
+
+  img
+    width: 50%
+    max-width: 25em
