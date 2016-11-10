@@ -31,17 +31,23 @@ angular.module('tomasApp')
       }
 
       $scope.activity = new Activity(type);
-      $scope.activity.start();
 
-      $scope.$broadcast('start-activity');
+      $scope.$broadcast('before-start-activity');
+      $scope.activity.start();
+      $scope.$broadcast('after-start-activity');
     };
 
     this.stop = function() {
       if (!$scope.activity) return;
 
-      $scope.activity.stop().save();
+      $scope.$broadcast('before-stop-activity');
+      $scope.activity.stop();
+      $scope.$broadcast('after-stop-activity');
+
+      $scope.activity.save();
+      $scope.$broadcast('after-save-activity');
       $scope.activity = null;
 
-      $scope.$broadcast('stop-activity');
+      
     };
   }]);

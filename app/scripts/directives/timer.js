@@ -58,14 +58,14 @@ angular.module('tomasApp')
           $scope.time = startTime;
         };
 
-        $scope.$on('start-activity', function () {
+        $scope.$on('after-start-activity', function () {
           $scope.time = startTime;
           timer = $interval(function () {
             updateTimer();
           }, 1000);
         });
 
-        $scope.$on('stop-activity', function () {
+        $scope.$on('after-stop-activity', function () {
           $scope.time = startTime;
           $interval.cancel(timer);
           timer = null;

@@ -15,10 +15,23 @@ angular.module('tomasApp')
       templateUrl: 'views/info.html',
       restrict: 'E',
       controllerAs: 'ctrl',
-      controller: ['$scope', 'Activity', function ($scope, Activity) {
-        this.isShow = function () {
-          return $scope.activity && $scope.activity.type === Activity.TYPE.WORK;
-        };
+      controller: ['$scope', function ($scope) {
+        var self = this;
+        initFields();
+
+        $scope.$on('after-save-activity', function () {
+          initFields();
+        });
+
+        $scope.$on('before-stop-activity', function () {
+          $scope.activity.name = self.name;
+          $scope.activity.description = self.description;
+        });
+
+        function initFields() {
+          self.name = '';
+          self.description = '';
+        }
       }]
     };
   });

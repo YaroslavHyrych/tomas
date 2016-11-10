@@ -30,7 +30,7 @@ angular.module('tomasApp')
           calculateTotalDuration();
         };
 
-        $scope.$on('stop-activity', function () {
+        $scope.$on('after-save-activity', function () {
           loadActivities();
           $scope.checkboxChanged();
         });
