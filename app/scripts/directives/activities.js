@@ -15,34 +15,6 @@ angular.module('tomasApp')
       controller: ['$scope', 'history', 'Activity' , 'activitiesFilterFilter', function ($scope, history, Activity, activitiesFilterFilter) {
         var self = this;
 
-        $scope.activities = loadActivities();
-        $scope.isWorkChecked = true;
-        $scope.isBreakChecked = true;
-
-        calculateTotalDuration();
-
-        $scope.checkboxChanged = function () {
-          var types = [];
-          if ($scope.isWorkChecked) types.push(Activity.TYPE.WORK);
-          if ($scope.isBreakChecked) types.push(Activity.TYPE.BREAK);
-
-          $scope.activities = activitiesFilterFilter(self.loadedActivities, types);
-          calculateTotalDuration();
-        };
-
-        $scope.$on('after-save-activity', function () {
-          loadActivities();
-          $scope.checkboxChanged();
-        });
-
-        this.makeDuration = function (activity) {
-          var time = getActivityDuration(activity);
-          var hours = time.hours == 0 ? '' : timeFormat(time.hours) + ':';
-          return hours + timeFormat(time.minutes) + ':' + timeFormat(time.seconds);
-        };
-
-        this.types = Activity.TYPE;
-
         function getActivityDuration(activity) {
           var userTimezoneOffset = new Date().getTimezoneOffset() * 60000,
             date = new Date(activity.stopDate - activity.startDate + userTimezoneOffset),
@@ -66,7 +38,7 @@ angular.module('tomasApp')
             date.setHours(date.getHours() + time.hours);
           }
 
-          var hours = date.getHours() == 0 ? '' : timeFormat(date.getHours()) + ':';
+          var hours = date.getHours() === 0 ? '' : timeFormat(date.getHours()) + ':';
           $scope.totalDuration = hours + timeFormat(date.getMinutes()) + ':' + timeFormat(date.getSeconds());
         }
 
@@ -75,8 +47,40 @@ angular.module('tomasApp')
         }
 
         function timeFormat(time) {
-          return time.toString().length == 1 ? '0' + time : time;
+          return time.toString().length === 1 ? '0' + time : time;
         }
+
+        $scope.activities = loadActivities() || [];
+        $scope.isWorkChecked = true;
+        $scope.isBreakChecked = true;
+
+        calculateTotalDuration();
+
+        $scope.checkboxChanged = function () {
+          var types = [];
+          if ($scope.isWorkChecked) {
+            types.push(Activity.TYPE.WORK);
+          }
+          if ($scope.isBreakChecked) {
+            types.push(Activity.TYPE.BREAK);
+          }
+
+          $scope.activities = activitiesFilterFilter(self.loadedActivities, types);
+          calculateTotalDuration();
+        };
+
+        $scope.$on('after-save-activity', function () {
+          loadActivities();
+          $scope.checkboxChanged();
+        });
+
+        this.makeDuration = function (activity) {
+          var time = getActivityDuration(activity);
+          var hours = time.hours === 0 ? '' : timeFormat(time.hours) + ':';
+          return hours + timeFormat(time.minutes) + ':' + timeFormat(time.seconds);
+        };
+
+        this.types = Activity.TYPE;
 
       }]
     };
