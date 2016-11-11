@@ -2,6 +2,6 @@
   <img src="imgs/logo.svg">
 </div>
 <h1>{{time}}</h1>
-<div class="stop-btn block" ng-click="ctrl.stop()">
+<div ng-class="['stop-btn', 'block', {'disabled': !activity}]" class="stop-btn block" ng-click="ctrl.stop()">
   <div class="square block"></div>
 </div>
