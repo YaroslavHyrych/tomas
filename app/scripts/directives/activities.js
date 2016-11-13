@@ -15,24 +15,10 @@ angular.module('tomasApp')
       controller: ['$scope', 'history', 'Activity' , 'activitiesFilterFilter', function ($scope, history, Activity, activitiesFilterFilter) {
         var self = this;
 
-        function getActivityDuration(activity) {
-          var userTimezoneOffset = new Date().getTimezoneOffset() * 60000,
-            date = new Date(activity.stopDate - activity.startDate + userTimezoneOffset),
-            hours = date.getHours(),
-            minutes = date.getMinutes(),
-            seconds = date.getSeconds();
-
-          return {
-            hours: hours,
-            minutes: minutes,
-            seconds: seconds
-          };
-        }
-
         function calculateTotalDuration() {
           var date = new Date(new Date().setHours(0, 0, 0, 0));
           for (var index in $scope.activities) {
-            var time = getActivityDuration($scope.activities[index]);
+            var time = $scope.activities[index].duration;
             date.setSeconds(date.getSeconds() + time.seconds);
             date.setMinutes(date.getMinutes() + time.minutes);
             date.setHours(date.getHours() + time.hours);
@@ -43,14 +29,14 @@ angular.module('tomasApp')
         }
 
         function loadActivities() {
-          return self.loadedActivities = history.load().reverse();
+          return self.loadedActivities = history.load(new Date().getDate()).reverse();
         }
 
         function timeFormat(time) {
           return time.toString().length === 1 ? '0' + time : time;
         }
 
-        $scope.activities = loadActivities() || [];
+        $scope.activities = loadActivities();
         $scope.isWorkChecked = true;
         $scope.isBreakChecked = true;
 
@@ -75,7 +61,7 @@ angular.module('tomasApp')
         });
 
         this.makeDuration = function (activity) {
-          var time = getActivityDuration(activity);
+          var time = activity.duration;
           var hours = time.hours === 0 ? '' : timeFormat(time.hours) + ':';
           return hours + timeFormat(time.minutes) + ':' + timeFormat(time.seconds);
         };

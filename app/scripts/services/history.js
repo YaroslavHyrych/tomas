@@ -9,20 +9,36 @@
  */
 angular.module('tomasApp')
   .service('history', ['$localStorage', 'Activity', function ($localStorage, Activity) {
+    var data;
+
+    function loadToCache(date) {
+      data = [];
+      var storedData = $localStorage[date],
+        parsedData = storedData ? JSON.parse(storedData) : [];
+      for (var index in parsedData) {
+        var activity = Activity.parse(parsedData[index]);
+        data.push(activity);
+      }
+    }
+
+    function saveCacheToStorage() {
+      $localStorage[new Date().getDate()] = JSON.stringify(data);
+    }
+
     return {
-      load: function() {
-        var activities = [];
-        for (var key in $localStorage) {
-          var value = $localStorage[key];
-
-          if (typeof value == 'function') continue;
-
-          value = Activity.parse(value);
-
-          activities.push(value);
+      load: function (day) {
+        if (!data) {
+          loadToCache(day);
         }
 
-        return activities;
+        return data;
+      },
+      save: function (activity) {
+        if (!data) {
+          loadToCache(new Date().getDate());
+        }
+        data.push(activity);
+        saveCacheToStorage();
       }
     };
   }]);

@@ -8,8 +8,8 @@
  * Controller of the tomasApp
  */
 angular.module('tomasApp')
-  .controller('MainCtrl', ['$scope', 'Activity', function ($scope, Activity) {
-    var that = this;
+  .controller('MainCtrl', ['$scope', 'Activity', 'history', function ($scope, Activity, history) {
+    var self = this;
     //TODO remove
     this.awesomeThings = [
       'HTML5 Boilerplate',
@@ -27,7 +27,7 @@ angular.module('tomasApp')
 
     var start = function (type) {
       if ($scope.activity) {
-        that.stop();
+        self.stop();
       }
 
       $scope.activity = new Activity(type);
@@ -44,10 +44,8 @@ angular.module('tomasApp')
       $scope.activity.stop();
       $scope.$broadcast('after-stop-activity');
 
-      $scope.activity.save();
-      $scope.$broadcast('after-save-activity');
+      history.save($scope.activity);
+      $scope.$broadcast('after-save-activity', $scope.activity);
       $scope.activity = null;
-
-      
     };
   }]);

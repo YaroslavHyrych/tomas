@@ -1,4 +1,3 @@
-
 /**
  * @ngdoc service
  * @name tomasApp.Activity
@@ -7,60 +6,61 @@
  * Service in the tomasApp.
  */
 angular.module('tomasApp')
-.factory('Activity', ['$localStorage', function($localStorage) {
-  function getTime() {
-    var date = new Date();
-    return date.getTime();
-  }
-  function Activity(type) {
-    this.name = '';
-    this.description = '';
-    this.type = type || Activity.TYPE.WORK;
-  }
-
-  Activity.TYPE = {
-    BREAK: 'break',
-    WORK: 'work'
-  };
-
-  Activity.prototype.start = function() {
-    this.startDate = getTime();
-
-    return this;
-  };
-
-  Activity.prototype.stop = function() {
-    this.stopDate = getTime();
-
-    return this;
-  };
-
-  Activity.prototype.save = function() {
-    if (!this.stopDate) this.stopDate = getTime();
-
-    if (!this.name) {
-      this.name = this.type == Activity.TYPE.BREAK ? 'Break': 'Activity';
+  .factory('Activity', [function () {
+    function getTime() {
+      var date = new Date();
+      return date.getTime();
     }
 
-    $localStorage[this.startDate] = JSON.stringify(this);
-  };
+    function Activity(type) {
+      this.name = '';
+      this.description = '';
+      this.type = type || Activity.TYPE.WORK;
+    }
 
-  Activity.parse = function(str) {
-    var object = JSON.parse(str, function(key, value) {
-      if (key == 'startDate' || key == 'stopDate') {
-        return new Date(value);
+    Activity.TYPE = {
+      BREAK: 'break',
+      WORK: 'work'
+    };
+
+    Activity.prototype.start = function () {
+      this.startDate = getTime();
+
+      return this;
+    };
+
+    Activity.prototype.stop = function () {
+      if (!this.name) {
+        this.name = this.type == Activity.TYPE.BREAK ? 'Break' : 'Activity';
       }
 
-      return value;
-    });
-    var activity = new Activity(object.type);
-    activity.name = object.name;
-    activity.description = object.description;
-    activity.startDate = object.startDate;
-    activity.stopDate = object.stopDate;
+      var stopDate = getTime(),
+        userTimezoneOffset = new Date().getTimezoneOffset() * 60000,
+        date = new Date(stopDate - this.startDate + userTimezoneOffset),
+        hours = date.getHours(),
+        minutes = date.getMinutes(),
+        seconds = date.getSeconds();
 
-    return activity;
-  };
+      this.duration = {
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+      };
 
-  return Activity;
-}]);
+      delete this.startDate;
+
+      return this;
+    };
+
+    Activity.parse = function (object) {
+      var activity = new Activity(object.type);
+      //TODO change to Object.assign
+      activity.name = object.name;
+      activity.description = object.description;
+      activity.duration = object.duration;
+
+      return activity;
+    };
+
+    return Activity;
+  }]);
