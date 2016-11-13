@@ -9,9 +9,11 @@
  */
 angular.module('tomasApp')
   .service('history', ['$localStorage', 'Activity', function ($localStorage, Activity) {
-    var data;
+    var data,
+      dataDate;
 
     function loadToCache(date) {
+      dataDate = date;
       data = [];
       var storedData = $localStorage[date],
         parsedData = storedData ? JSON.parse(storedData) : [];
@@ -26,9 +28,9 @@ angular.module('tomasApp')
     }
 
     return {
-      load: function (day) {
-        if (!data) {
-          loadToCache(day);
+      load: function (date) {
+        if (!data || dataDate !== date) {
+          loadToCache(date);
         }
 
         return data;
