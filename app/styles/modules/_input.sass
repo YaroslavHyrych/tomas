@@ -14,22 +14,24 @@ input[type='text'], textarea
   margin-top: 1em
   font-size: 18px
 
-  .circle
-    width: 60px
-    height: 60px
-    border-radius: 50%
-    background: $dark-background-color
-
-    & > div
-      text-shadow: none
-      padding-top: 7px
-
   .start-btn, .break-btn
-    & > div
+    .circle
+      width: 60px
+      height: 60px
+      border-radius: 50%
+      background: $dark-background-color
       display: inline-block
 
-  .start-btn:hover, .break-btn:hover
-    cursor: pointer
+      &:hover
+        cursor: pointer
+        box-shadow: 6px 6px 6px $shadow-color
+
+      &:active
+        background-color: $dark-background-color - 1
+
+      & > div
+        text-shadow: none
+        padding-top: 7px
 
   .start-btn
     text-align: right

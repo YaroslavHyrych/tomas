@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @ngdoc service
  * @name tomasApp.Activity
@@ -31,7 +33,7 @@ angular.module('tomasApp')
 
     Activity.prototype.stop = function () {
       if (!this.name) {
-        this.name = this.type == Activity.TYPE.BREAK ? 'Break' : 'Activity';
+        this.name = this.type === Activity.TYPE.BREAK ? 'Break' : 'Activity';
       }
 
       var stopDate = getTime(),
