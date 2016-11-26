@@ -27,14 +27,14 @@ angular.module('tomasApp')
           var minutes = timeArr[0];
           var seconds = timeArr[1];
 
-          if (seconds == 59) {
+          if (seconds === '59') {
             minutes++;
             seconds = 0;
 
             // Check every minute
-            if ($scope.time == '24:59' && $scope.activity.type == Activity.TYPE.WORK) {
+            if ($scope.time === '24:59' && $scope.activity.type === Activity.TYPE.WORK) {
               console.log('Please make a break!');
-            } else if ($scope.time == '04:59' && $scope.activity.type == Activity.TYPE.BREAK) {
+            } else if ($scope.time === '04:59' && $scope.activity.type === Activity.TYPE.BREAK) {
               console.log('Break is so log...');
             }
 

@@ -14,36 +14,47 @@ input[type='text'], textarea
   margin-top: 1em
   font-size: 18px
 
-  .start-btn, .break-btn
-    .circle
-      width: 60px
-      height: 60px
-      border-radius: 50%
-      background: $dark-background-color
-      display: inline-block
+.circle-btn
 
-      &:hover
-        cursor: pointer
-        box-shadow: 6px 6px 6px $shadow-color
+  .circle
+    text-align: center
+    width: 70px
+    height: 70px
+    border-radius: 50%
+    background: $dark-background-color
+    display: inline-block
+    transition-duration: 0.4s
 
-      &:active
-        background-color: $dark-background-color - 1
+    &:hover
+      transition-duration: 0.4s
+      cursor: pointer
+      box-shadow: none
+      background-color: $dark-background-color - 1
 
-      & > div
-        text-shadow: none
-        padding-top: 7px
+    //&:active
+      background-color: $dark-background-color - 1
 
-  .start-btn
-    text-align: right
-    .circle
-      color: $green-color
+    & > div
+      transition-duration: 0.4s
+      text-shadow: none
+      padding-top: 12px
+
+.start-btn
+  text-align: right
+  .circle
+    right: 0
+    color: $green-color
+    &:hover
+      background-color: $green-disabled-color
 
 
-  .break-btn
-    text-align: left
-    .circle
-      color: $orange-color
-
+.break-btn
+  text-align: left
+  .circle
+    left: 0
+    color: $orange-color
+    &:hover
+      background-color: $orange-disabled-color
 
 .checkbox
   display: inline-block

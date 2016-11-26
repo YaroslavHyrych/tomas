@@ -8,22 +8,14 @@
     text-shadow: 0 2px 3px #ffffff
     color: #dadada
 
-  .stop-btn
-    width: 50px
-    height: 50px
-    border-radius: 50%
-    background-color: $dark-background-color
-    margin: 0 auto
-
-    &:hover
-      cursor: pointer
-      box-shadow: 6px 6px 6px $shadow-color
-
-    &:active
-      background-color: $dark-background-color - 1
+  .circle-btn
+    .circle
+      width: 50px
+      height: 50px
 
     &.disabled
-      box-shadow: none
+      .circle
+        box-shadow: none
 
       .square
         opacity: 0.5

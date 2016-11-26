@@ -2,6 +2,8 @@
   <img src="images/logo.svg">
 </div>
 <h1>{{time}}</h1>
-<div ng-class="['stop-btn', 'block', {'disabled': !activity}]" class="stop-btn block" ng-click="ctrl.stop()">
-  <div class="square block"></div>
+<div ng-class="['circle-btn', 'stop-btn', {'disabled': !activity}]" ng-click="ctrl.stop()">
+  <div class="circle block">
+    <div class="square block"></div>
+  </div>
 </div>
