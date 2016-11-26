@@ -33,9 +33,14 @@ angular.module('tomasApp')
 
             // Check every minute
             if ($scope.time === '24:59' && $scope.activity.type === Activity.TYPE.WORK) {
+              $scope.message = 'You are working a lot...';
+              $scope.status = 'warning';
+            } else if ($scope.time === '59:59' && $scope.activity.type === Activity.TYPE.WORK) {
               $scope.message = 'Please make a break!';
+              $scope.status = 'error';
             } else if ($scope.time === '04:59' && $scope.activity.type === Activity.TYPE.BREAK) {
               $scope.message = 'Break is so long...';
+              $scope.status = 'warning';
             }
 
             if (minutes < 10) {
@@ -60,6 +65,7 @@ angular.module('tomasApp')
 
         $scope.$on('after-start-activity', function () {
           $scope.message = null;
+          $scope.status = null;
           $scope.time = startTime;
           timer = $interval(function () {
             updateTimer();
@@ -68,6 +74,7 @@ angular.module('tomasApp')
 
         $scope.$on('after-stop-activity', function () {
           $scope.message = null;
+          $scope.status = null;
           $scope.time = startTime;
           $interval.cancel(timer);
           timer = null;

@@ -1,8 +1,10 @@
 <div class="logo">
   <img src="images/logo.svg">
 </div>
-<h1>{{time}}</h1>
-<h3 class="message" ng-show="message ">{{message}}</h3>
+<div ng-class="status">
+  <h1>{{time}}</h1>
+  <h3 class="message" ng-show="message ">{{message}}</h3>
+</div>
 <div ng-class="[{'disabled': !activity}]" class="circle-btn stop-btn">
   <div class="circle block" ng-click="ctrl.stop()">
     <div class="square block"></div>
