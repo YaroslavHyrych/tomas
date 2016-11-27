@@ -64,43 +64,35 @@ input[type='text'], textarea
 
   label
     display: inline-block
-    cursor: pointer
-    position: relative
-    padding-left: 25px
-    margin-right: 5px
-    font-size: 13px
-
-  label:before
-    content: ""
-    display: inline-block
-
+    content: ''
     width: 25px
     height: 25px
-
     margin-right: 10px
-    position: absolute
-    left: 0
-    bottom: 1px
-    background-color: $dark-background-color
-    box-shadow: inset 0 2px 3px 0 $shadow-color
+    background-color: #f0f0f0
+    box-shadow: inset 0 2px 3px 0 #e9e7e7
     border-radius: 50%
 
-  & > input + label:before
-    content: "\2022"
-    color: $dark-background-color
-    font-size: 60px
-    text-align: center
-    line-height: 25px
+  label:before
+    content: ''
+    display: inline-block
+
+    width: 14px
+    height: 14px
+
+    position: absolute
+    left: 5px
+    top: 5px
+    border-radius: 50%
 
 .checkbox.work
   input:checked + label:before
-    color: $green-color
+    background-color: $green-color
   input + label:before
-    color: $green-disabled-color
+    background-color: $green-disabled-color
 
 .checkbox.break
   input:checked + label:before
-    color: $orange-color
+    background-color: $orange-color
 
   input + label:before
-    color: $orange-disabled-color
+    background-color: $orange-disabled-color

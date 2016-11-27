@@ -9,13 +9,12 @@
  */
 angular.module('tomasApp')
   .service('history', ['$localStorage', 'Activity', function ($localStorage, Activity) {
-    var data,
-      dataDate;
+    var data, key;
 
-    function loadToCache(date) {
-      dataDate = date;
+    function loadToCache(newKey) {
+      key = newKey;
       data = [];
-      var storedData = $localStorage[date],
+      var storedData = $localStorage[key],
         parsedData = storedData ? JSON.parse(storedData) : [];
       for (var index in parsedData) {
         var activity = Activity.parse(parsedData[index]);
@@ -24,23 +23,41 @@ angular.module('tomasApp')
     }
 
     function saveCacheToStorage() {
-      $localStorage[new Date().getDate()] = JSON.stringify(data);
+      $localStorage[key] = JSON.stringify(data);
+    }
+
+    function createKey(date) {
+      return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getYear();
     }
 
     return {
       load: function (date) {
-        if (!data || dataDate !== date) {
-          loadToCache(date);
+        var newKey = createKey(date);
+        if (!data || key !== newKey) {
+          loadToCache(newKey);
         }
 
         return data;
       },
       save: function (activity) {
-        if (!data) {
-          loadToCache(new Date().getDate());
+        var todayKey = createKey(new Date());
+        if (key === todayKey || !key) {
+          if (!data) {
+            loadToCache(todayKey);
+          }
+          data.push(activity);
+          saveCacheToStorage();
+        } else if (key !== todayKey) {
+          var backup = {
+            key: key,
+            data: data
+          };
+          loadToCache(todayKey);
+          data.push(activity);
+          saveCacheToStorage();
+          key = backup.key;
+          data = backup.data;
         }
-        data.push(activity);
-        saveCacheToStorage();
       }
     };
   }]);

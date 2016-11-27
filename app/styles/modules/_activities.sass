@@ -9,7 +9,24 @@
       padding: 0
 
     .time
-      top: -5px !important
+      top: 0 !important
+
+    .control
+      position: relative
+
+    .date
+      text-align: center
+
+      .nav
+        position: absolute
+        cursor: pointer
+        top: 50%
+        margin-top: -10px
+
+        &.prev
+          left: 0
+        &.next
+          right: 0
 
   .block
     position: relative

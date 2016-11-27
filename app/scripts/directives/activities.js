@@ -15,6 +15,8 @@ angular.module('tomasApp')
       controller: ['$scope', 'history', 'Activity' , 'activitiesFilterFilter', function ($scope, history, Activity, activitiesFilterFilter) {
         var self = this;
 
+        this.date = new Date();
+
         function calculateTotalDuration() {
           var date = new Date(new Date().setHours(0, 0, 0, 0));
           for (var index in $scope.activities) {
@@ -29,7 +31,12 @@ angular.module('tomasApp')
         }
 
         function loadActivities() {
-          return self.loadedActivities = history.load(new Date().getDate()).reverse();
+          return self.loadedActivities = history.load(self.date).reverse();
+        }
+
+        function reload() {
+          loadActivities();
+          $scope.checkboxChanged();
         }
 
         function timeFormat(time) {
@@ -56,9 +63,18 @@ angular.module('tomasApp')
         };
 
         $scope.$on('after-save-activity', function () {
-          loadActivities();
-          $scope.checkboxChanged();
+          if (self.date.getDate() === new Date().getDate()) {
+            reload();
+          }
         });
+
+        this.changeDate = function (calcDate) {
+          var date = self.date;
+          date.setDate(date.getDate() + parseInt(calcDate));
+          self.date = date;
+
+          reload();
+        };
 
         this.makeDuration = function (activity) {
           var time = activity.duration;
