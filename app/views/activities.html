@@ -24,8 +24,10 @@
   There aren't any activities!
 </div>
 
-<div class='block {{activity.type}}' ng-repeat="activity in activities">
-  {{activity.name}}
-  <div class="time">{{activitiesCtrl.makeDuration(activity)}}</div>
-  <div class="description" ng-show="activity.description">{{activity.description}}</div>
+<div class="scroll" ng-show="activities.length">
+  <div class='block {{activity.type}}' ng-repeat="activity in activities">
+    {{activity.name}}
+    <div class="time">{{activitiesCtrl.makeDuration(activity)}}</div>
+    <div class="description" ng-show="activity.description">{{activity.description}}</div>
+  </div>
 </div>
