@@ -45,7 +45,7 @@ angular.module('tomasApp')
           if (!data) {
             loadToCache(todayKey);
           }
-          data.push(activity);
+          data.unshift(activity);
           saveCacheToStorage();
         } else if (key !== todayKey) {
           var backup = {
@@ -53,7 +53,7 @@ angular.module('tomasApp')
             data: data
           };
           loadToCache(todayKey);
-          data.push(activity);
+          data.unshift(activity);
           saveCacheToStorage();
           key = backup.key;
           data = backup.data;

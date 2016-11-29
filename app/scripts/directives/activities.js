@@ -31,7 +31,7 @@ angular.module('tomasApp')
         }
 
         function loadActivities() {
-          return self.loadedActivities = history.load(self.date).reverse();
+          return self.loadedActivities = history.load(self.date);
         }
 
         function reload() {
