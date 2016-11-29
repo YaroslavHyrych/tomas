@@ -1,8 +1,6 @@
-<div>
-  <div class="block">
-    <input ng-model="ctrl.name" type="text" placeholder="Enter name">
-  </div>
-  <div class="block">
-    <textarea ng-model="ctrl.description" placeholder="Enter description"></textarea>
-  </div>
+<div ng-class="activity.type" class="block">
+  <input ng-model="ctrl.name" type="text" placeholder="Enter name">
+</div>
+<div ng-class="activity.type" class="block">
+  <textarea ng-model="ctrl.description" placeholder="Enter description"></textarea>
 </div>
