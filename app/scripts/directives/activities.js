@@ -12,7 +12,7 @@ angular.module('tomasApp')
       templateUrl: 'views/activities.html',
       restrict: 'E',
       controllerAs: 'activitiesCtrl',
-      controller: ['$scope', 'history', 'Activity' , 'activitiesFilterFilter', function ($scope, history, Activity, activitiesFilterFilter) {
+      controller: ['$scope', 'history', 'Activity', function ($scope, history, Activity) {
         var self = this;
 
         this.date = new Date();
@@ -31,7 +31,7 @@ angular.module('tomasApp')
         }
 
         function loadActivities() {
-          return self.loadedActivities = history.load(self.date);
+          $scope.activities = history.load(self.date);
         }
 
         function reload() {
@@ -43,10 +43,11 @@ angular.module('tomasApp')
           return time.toString().length === 1 ? '0' + time : time;
         }
 
-        $scope.activities = loadActivities();
         $scope.isWorkChecked = true;
         $scope.isBreakChecked = true;
+        $scope.types = [Activity.TYPE.WORK, Activity.TYPE.BREAK];
 
+        loadActivities();
         calculateTotalDuration();
 
         $scope.checkboxChanged = function () {
@@ -58,7 +59,8 @@ angular.module('tomasApp')
             types.push(Activity.TYPE.BREAK);
           }
 
-          $scope.activities = activitiesFilterFilter(self.loadedActivities, types);
+          $scope.types = types;
+
           calculateTotalDuration();
         };
 
@@ -81,9 +83,6 @@ angular.module('tomasApp')
           var hours = time.hours === 0 ? '' : timeFormat(time.hours) + ':';
           return hours + timeFormat(time.minutes) + ':' + timeFormat(time.seconds);
         };
-
-        this.types = Activity.TYPE;
-
       }]
     };
   });
