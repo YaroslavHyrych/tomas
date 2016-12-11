@@ -12,7 +12,7 @@ angular.module('tomasApp')
       templateUrl: 'views/activities.html',
       restrict: 'E',
       controllerAs: 'activitiesCtrl',
-      controller: ['$scope', 'history', 'Activity', function ($scope, history, Activity) {
+      controller: ['$scope', 'history', 'Activity', 'activitiesFilterFilter', function ($scope, history, Activity, activitiesFilterFilter) {
         var self = this;
 
         this.date = new Date();
@@ -31,7 +31,7 @@ angular.module('tomasApp')
         }
 
         function loadActivities() {
-          $scope.activities = history.load(self.date);
+          return self.loadedActivities = history.load(self.date);
         }
 
         function reload() {
@@ -45,9 +45,8 @@ angular.module('tomasApp')
 
         $scope.isWorkChecked = true;
         $scope.isBreakChecked = true;
-        $scope.types = [Activity.TYPE.WORK, Activity.TYPE.BREAK];
 
-        loadActivities();
+        $scope.activities = loadActivities();
         calculateTotalDuration();
 
         $scope.checkboxChanged = function () {
@@ -59,7 +58,7 @@ angular.module('tomasApp')
             types.push(Activity.TYPE.BREAK);
           }
 
-          $scope.types = types;
+          $scope.activities = activitiesFilterFilter(self.loadedActivities, types);
 
           calculateTotalDuration();
         };

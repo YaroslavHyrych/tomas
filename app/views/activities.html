@@ -20,12 +20,12 @@
   </div>
 </header>
 
-<div class="info" ng-hide="activities.length && types.length">
+<div class="info" ng-hide="activities.length">
   There aren't any activities!
 </div>
 
-<div class="scroll" ng-show="activities.length && types.length">
-  <div class='block {{activity.type}}' ng-repeat="activity in activities | activitiesFilter:types">
+<div class="scroll" ng-show="activities.length">
+  <div class='block animate-repeat {{activity.type}}' ng-repeat="activity in activities track by $index"  ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
     {{activity.name}}
     <div class="time">{{activitiesCtrl.makeDuration(activity)}}</div>
     <div class="description" ng-show="activity.description">{{activity.description}}</div>
