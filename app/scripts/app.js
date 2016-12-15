@@ -12,5 +12,6 @@ angular
   .module('tomasApp', [
     'ngAnimate',
     'ngTouch',
-    'ngStorage'
+    'ngStorage',
+    'ngAudio'
   ]);

@@ -16,9 +16,12 @@ angular.module('tomasApp')
       templateUrl: 'views/timer.html',
       restrict: 'E',
       controllerAs: 'ctrl',
-      controller: ['$interval', '$scope', 'Activity', function ($interval, $scope, Activity) {
+      controller: ['$interval', '$scope', 'Activity', 'ngAudio', function ($interval, $scope, Activity, ngAudio) {
         var timer;
         var startTime = '00:00';
+
+        var needBreakSound = ngAudio.load("audio/shake.mp3");
+        var needWorkSound = ngAudio.load("audio/cooker.mp3");
 
         $scope.time = startTime;
 
@@ -33,14 +36,21 @@ angular.module('tomasApp')
 
             // Check every minute
             if ($scope.time === '24:59' && $scope.activity.type === Activity.TYPE.WORK) {
+              needBreakSound.play();
               $scope.message = 'You are working a lot...';
               $scope.status = 'warning';
             } else if ($scope.time === '59:59' && $scope.activity.type === Activity.TYPE.WORK) {
+              needBreakSound.play();
               $scope.message = 'Please make a break!';
               $scope.status = 'error';
             } else if ($scope.time === '04:59' && $scope.activity.type === Activity.TYPE.BREAK) {
+              needWorkSound.play();
               $scope.message = 'Break is so long...';
               $scope.status = 'warning';
+            } else if ($scope.time === '14:59' && $scope.activity.type === Activity.TYPE.BREAK) {
+              needWorkSound.play();
+              $scope.message = 'Go to work!';
+              $scope.status = 'error';
             }
 
             if (minutes < 10) {
