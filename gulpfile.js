@@ -8,6 +8,8 @@ var lazypipe = require('lazypipe');
 var rimraf = require('rimraf');
 var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
+var archiver = require('archiver');
+var fs = require('fs');
 
 var yeoman = {
   app: require('./bower.json').appPath || 'app',
@@ -200,6 +202,26 @@ gulp.task('copy:fonts', function () {
       './bower_components/bootstrap/dist/fonts/*'
     ])
     .pipe(gulp.dest(yeoman.dist + '/fonts'));
+});
+
+gulp.task('pack', function () {
+  var archiveName = 'site.zip';
+  var output = fs.createWriteStream('./' + archiveName);
+  var archive = archiver('zip', {
+    store: true
+  });
+  output.on('close', function () {
+    console.log('Archiver has been finalized and the output file descriptor has closed.');
+  });
+  archive.on('error', function (err) {
+    throw err;
+  });
+
+  archive.pipe(output);
+
+  archive.directory(yeoman.dist, '');
+
+  archive.finalize();
 });
 
 gulp.task('build', ['clean:dist', 'bower'], function () {
