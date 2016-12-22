@@ -18,6 +18,7 @@ angular.module('tomasApp')
       controllerAs: 'ctrl',
       controller: ['$interval', '$scope', 'Activity', 'ngAudio', function ($interval, $scope, Activity, ngAudio) {
         var timer;
+        var self = this;
         var startTime = '00:00';
 
         var needBreakSound = ngAudio.load("audio/shake.mp3");
@@ -35,23 +36,10 @@ angular.module('tomasApp')
             seconds = 0;
 
             // Check every minute
-            if ($scope.time === '24:59' && $scope.activity.type === Activity.TYPE.WORK) {
-              needBreakSound.play();
-              $scope.message = 'You are working a lot...';
-              $scope.status = 'warning';
-            } else if ($scope.time === '59:59' && $scope.activity.type === Activity.TYPE.WORK) {
-              needBreakSound.play();
-              $scope.message = 'Please make a break!';
-              $scope.status = 'error';
-            } else if ($scope.time === '04:59' && $scope.activity.type === Activity.TYPE.BREAK) {
-              needWorkSound.play();
-              $scope.message = 'Break is so long...';
-              $scope.status = 'warning';
-            } else if ($scope.time === '14:59' && $scope.activity.type === Activity.TYPE.BREAK) {
-              needWorkSound.play();
-              $scope.message = 'Go to work!';
-              $scope.status = 'error';
-            }
+            checkTime('24:59', Activity.TYPE.WORK, 'You are working a lot...', 'warning', needBreakSound);
+            checkTime('59:59', Activity.TYPE.WORK, 'Please make a break!', 'error', needBreakSound);
+            checkTime('04:59', Activity.TYPE.BREAK, 'Break is so long...', 'warning', needWorkSound);
+            checkTime('14:59', Activity.TYPE.BREAK, 'Go to work!', 'error', needWorkSound);
 
             if (minutes < 10) {
               minutes = '0' + minutes;
@@ -73,6 +61,26 @@ angular.module('tomasApp')
           $scope.time = startTime;
         };
 
+        this.stopAudio = function () {
+          if ($scope.audio) {
+            $scope.audio.stop();
+          }
+        };
+
+        function checkTime(time, type, message, status) {
+          if ($scope.time !== time || $scope.activity.type !== type) return;
+
+          $scope.audio.play();
+          $scope.message = message;
+          $scope.status = status;
+        }
+
+        $scope.$watch('activity', function (activity) {
+          if (!activity) return;
+
+          $scope.audio = $scope.activity.type === Activity.TYPE.BREAK ? needBreakSound : needWorkSound;
+        });
+
         $scope.$on('after-start-activity', function () {
           $scope.message = null;
           $scope.status = null;
@@ -86,6 +94,7 @@ angular.module('tomasApp')
           $scope.message = null;
           $scope.status = null;
           $scope.time = startTime;
+          self.stopAudio();
           $interval.cancel(timer);
           timer = null;
         });

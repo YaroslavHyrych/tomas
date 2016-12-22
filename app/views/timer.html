@@ -1,8 +1,11 @@
 <div class="logo">
   <img src="images/cap.svg">
 </div>
-<div ng-class="status">
-  <h1>{{time}}</h1>
+<div ng-class="['time', status]">
+  <div class="audio_message" ng-show="audio && !audio.paused">
+    Click on timer to stop sound!
+  </div>
+  <h1 ng-click="ctrl.stopAudio()">{{time}}</h1>
   <h3 class="message" ng-show="message ">{{message}}</h3>
 </div>
 <div ng-class="[{'disabled': !activity}]" class="circle-btn stop-btn">
