@@ -26,7 +26,7 @@ angular.module('tomasApp')
     };
 
     Activity.prototype.start = function () {
-      this.startDate = getTime();
+      this.id = getTime();
 
       return this;
     };
@@ -38,7 +38,7 @@ angular.module('tomasApp')
 
       var stopDate = getTime(),
         userTimezoneOffset = new Date().getTimezoneOffset() * 60000,
-        date = new Date(stopDate - this.startDate + userTimezoneOffset),
+        date = new Date(stopDate - this.id + userTimezoneOffset),
         hours = date.getHours(),
         minutes = date.getMinutes(),
         seconds = date.getSeconds();
@@ -49,17 +49,15 @@ angular.module('tomasApp')
         seconds: seconds
       };
 
-      delete this.startDate;
-
       return this;
     };
 
     Activity.parse = function (object) {
       var activity = new Activity(object.type);
       //TODO change to Object.assign
-      activity.name = object.name;
-      activity.description = object.description;
-      activity.duration = object.duration;
+      for (var key in object) {
+        activity[key] = object[key];
+      }
 
       return activity;
     };

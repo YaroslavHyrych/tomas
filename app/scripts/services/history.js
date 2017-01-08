@@ -14,6 +14,10 @@ angular.module('tomasApp')
     function loadToCache(newKey) {
       key = newKey;
       data = [];
+      loadTo(data, key);
+    }
+
+    function loadTo(data, key) {
       var storedData = $localStorage[key],
         parsedData = storedData ? JSON.parse(storedData) : [];
       for (var index in parsedData) {
@@ -22,8 +26,8 @@ angular.module('tomasApp')
       }
     }
 
-    function saveCacheToStorage() {
-      $localStorage[key] = JSON.stringify(data);
+    function saveCacheToStorage(newData) {
+      $localStorage[key] = JSON.stringify(newData || data);
     }
 
     function createKey(date) {
@@ -58,6 +62,30 @@ angular.module('tomasApp')
           key = backup.key;
           data = backup.data;
         }
+      },
+      delete: function (activity) {
+        var date = new Date(activity.id);
+        var dateKey = createKey(date);
+        var activities = [];
+        if (dateKey === key) {
+          if (!data) {
+            loadToCache(dateKey);
+          } else {
+            activities = data;
+          }
+        } else {
+          loadTo(activities, dateKey);
+        }
+
+        var index;
+        for (index in activities) {
+          var obj = activities[index];
+          if (obj.id === activity.id) {
+            break;
+          }
+        }
+        activities.splice(index, 1);
+        saveCacheToStorage(activities);
       }
     };
   }]);

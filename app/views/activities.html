@@ -25,9 +25,18 @@
 </div>
 
 <div class="scroll" ng-show="activities.length">
-  <div class='block animate-repeat {{activity.type}}' ng-repeat="activity in activities track by $index"  ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
-    {{activity.name}}
-    <div class="time">{{activitiesCtrl.makeDuration(activity)}}</div>
-    <div class="description" ng-show="activity.description">{{activity.description}}</div>
+  <div class='block animate-repeat {{activity.type}}'
+       ng-repeat="activity in activities track by $index"
+       ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
+    <div class="content">
+      {{activity.name}}
+      <div class="time">{{activitiesCtrl.makeDuration(activity)}}</div>
+      <div class="description" ng-show="activity.description">{{activity.description}}</div>
+    </div>
+    <div class="operations">
+      <div class="delete" ng-click="activitiesCtrl.delete($index)">
+        Delete
+      </div>
+    </div>
   </div>
 </div>

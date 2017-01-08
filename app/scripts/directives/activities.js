@@ -76,7 +76,10 @@ angular.module('tomasApp')
 
           reload();
         };
-
+        this.delete = function (index) {
+          history.delete($scope.activities[index]);
+          $scope.activities.splice(index, 1);
+        };
         this.makeDuration = function (activity) {
           var time = activity.duration;
           var hours = time.hours === 0 ? '' : timeFormat(time.hours) + ':';
