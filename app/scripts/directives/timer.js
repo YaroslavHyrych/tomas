@@ -19,7 +19,7 @@ angular.module('tomasApp')
       controller: ['$interval', '$scope', 'Activity', 'ngAudio', function ($interval, $scope, Activity, ngAudio) {
         var timer;
         var self = this;
-        var startTime = '04:58';
+        var startTime = '00:00';
 
         var needBreakSound = ngAudio.load("audio/shake.mp3");
         var needWorkSound = ngAudio.load("audio/cooker.mp3");
