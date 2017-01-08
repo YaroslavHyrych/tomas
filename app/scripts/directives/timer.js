@@ -19,7 +19,7 @@ angular.module('tomasApp')
       controller: ['$interval', '$scope', 'Activity', 'ngAudio', function ($interval, $scope, Activity, ngAudio) {
         var timer;
         var self = this;
-        var startTime = '00:00';
+        var startTime = '04:58';
 
         var needBreakSound = ngAudio.load("audio/shake.mp3");
         var needWorkSound = ngAudio.load("audio/cooker.mp3");
@@ -78,7 +78,7 @@ angular.module('tomasApp')
         $scope.$watch('activity', function (activity) {
           if (!activity) return;
 
-          $scope.audio = $scope.activity.type === Activity.TYPE.BREAK ? needBreakSound : needWorkSound;
+          $scope.audio = $scope.activity.type === Activity.TYPE.BREAK ? needWorkSound : needBreakSound;
         });
 
         $scope.$on('after-start-activity', function () {
